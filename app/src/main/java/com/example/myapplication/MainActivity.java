@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
         sectionedAdapter = new SectionedRecyclerViewAdapter();
+        recyclerView.addItemDecoration(new SearchItemDecoration(sectionedAdapter));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         gridLayoutManager.setSpanSizeLookup(new SearchSpanSizeLookup(sectionedAdapter));
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         sectionedAdapter.addSection(new SearchTopSection());
         sectionedAdapter.addSection(new SearchRecentSection("Tìm kiếm gần đây", getHistorySearch()));
         AdvanceSettingSection advanceSection = new AdvanceSettingSection("Tùy chọn nâng cao");
-        advanceSection.addSection(sectionedAdapter);
+        advanceSection.addSection(sectionedAdapter, recyclerView);
 
         recyclerView.setAdapter(sectionedAdapter);
     }

@@ -20,6 +20,7 @@ public class AdvanceSettingSection extends StatelessSection {
     private List<Section> childSection;
     private boolean isExpand = true;
     private SectionedRecyclerViewAdapter sectionedAdapter;
+    private RecyclerView recyclerView;
 
     public AdvanceSettingSection(String title) {
         super(SectionParameters.builder()
@@ -33,6 +34,8 @@ public class AdvanceSettingSection extends StatelessSection {
         childSection = new ArrayList<>();
         childSection.add(new TypeSection("Loại hình", getListType()));
         childSection.add(new JuridicalSection("Pháp lý", getListJuridical()));
+        childSection.add(new JuridicalSection("Pháp lý", getListJuridical()));
+        childSection.add(new TypeSection("Loại hình", getListType()));
     }
 
     private List<String> getListType() {
@@ -45,6 +48,9 @@ public class AdvanceSettingSection extends StatelessSection {
         listType.add("Mặt bằng");
         listType.add("Văn phòng");
         listType.add("Đất nền dự án");
+        for (int i = 0; i < 30; i++) {
+            listType.add("Khác " + i);
+        }
         return listType;
     }
 
@@ -54,11 +60,15 @@ public class AdvanceSettingSection extends StatelessSection {
         Juridical.add("Sổ đỏ");
         Juridical.add("Chờ ra sổ");
         Juridical.add("Hợp đồng mua bán");
+        for (int i = 0; i < 20; i++) {
+            Juridical.add("Khác "+i);
+        }
         return Juridical;
     }
 
-    public void addSection(SectionedRecyclerViewAdapter sectionedAdapter) {
+    public void addSection(SectionedRecyclerViewAdapter sectionedAdapter, RecyclerView recyclerView) {
         this.sectionedAdapter = sectionedAdapter;
+        this.recyclerView = recyclerView;
         sectionedAdapter.addSection(this);
         if (isExpand) {
             for (Section section : childSection) {
@@ -81,6 +91,7 @@ public class AdvanceSettingSection extends StatelessSection {
                 for (Section section : childSection) {
                     sectionedAdapter.removeSection(section);
                 }
+//                recyclerView.getRecycledViewPool().clear();
             } else {
                 int sectionIndex = sectionedAdapter.getSectionIndex(AdvanceSettingSection.this);
                 for (int i = 0; i < childSection.size(); i++) {
